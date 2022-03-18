@@ -11,6 +11,8 @@ class MapaViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     let locationManager = CLLocationManager() //Manager que controla a localizacao do usuario no mapa
     var cont = 0
+    var coreDataPokemon : CoreDataPokemon!
+    var pokemons: [Pokemon] = []
     
     @IBOutlet weak var mapa: MKMapView!
 
@@ -18,26 +20,37 @@ class MapaViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         super.viewDidLoad()
         
         self.configLocationManager()
-     
+        
+        //Recuperar Pokemons e adicionar caso seja a primeira vez executada
+        coreDataPokemon = CoreDataPokemon()
+        self.pokemons = coreDataPokemon.listPokemons()
+        
         //Exibir anotacoes aleatorias, que futuramente serao os pokemons
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in //timeInterval é dado em segundos
             if let coordinates = self.locationManager.location?.coordinate{
-                
-                let anotation = MKPointAnnotation()
+
+                // primeiro gerar um indice de pokemons aleatorios no array de pokemons
+                let indexUInt32 = UInt32(self.pokemons.count)
+                let randomPokemonsIndex =  arc4random_uniform(indexUInt32)
+                let randomPokemon = self.pokemons[Int(randomPokemonsIndex)]
+                                                  
+                let annotation = PokemonAnnotation(coordinate: coordinates , pokemon: randomPokemon)
                 
                 let randomLatitude = (Double( arc4random_uniform(200) ) - 100.0) / 50000.0
                 let randomLongitude = (Double( arc4random_uniform(200) ) - 100.0) / 50000.0
                 
-                anotation.coordinate = coordinates
-                anotation.coordinate.latitude += randomLatitude
-                anotation.coordinate.longitude += randomLongitude
+                annotation.coordinate.latitude += randomLatitude
+                annotation.coordinate.longitude += randomLongitude
                 
-                self.mapa.addAnnotation(anotation)
+                self.mapa.addAnnotation(annotation)
             }
         }
     }
     //funcao que executa cada vez que uma anotacao é inserida
+        // o parametro annotation dessa class é o mesmo que fizemos no viewDidLoad, mas recuperado
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        //essa classe nao tem como passar um outro parametro para crianca de varias anotacoes ao mesmo tempo, necessaria alguma forma de corrigir  isso, criando uma anotacao que contenha Pokemons dentro, la no viewDidLoad
+
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
         
         if annotation is MKUserLocation {
@@ -46,8 +59,8 @@ class MapaViewController: UIViewController, MKMapViewDelegate, CLLocationManager
             annotationView.image = image
         }
         else{
-            
-            let image = UIImage(named: "pikachu-2")
+            let pokemon = (annotation as! PokemonAnnotation).pokemon
+            let image = UIImage(named: pokemon.imageName! )
             annotationView.image = image
         }
         

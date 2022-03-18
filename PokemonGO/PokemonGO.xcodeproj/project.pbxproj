@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		469BE82827E4ECB500642F1D /* PokeDexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BE82727E4ECB500642F1D /* PokeDexViewController.swift */; };
+		46AB469927E4BC6700856347 /* PokemonAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AB469827E4BC6700856347 /* PokemonAnnotation.swift */; };
 		46B4C99A27E378FB00256BFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4C99927E378FB00256BFD /* AppDelegate.swift */; };
 		46B4C99C27E378FB00256BFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4C99B27E378FB00256BFD /* SceneDelegate.swift */; };
 		46B4C99E27E378FB00256BFD /* MapaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4C99D27E378FB00256BFD /* MapaViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		469BE82727E4ECB500642F1D /* PokeDexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeDexViewController.swift; sourceTree = "<group>"; };
+		46AB469827E4BC6700856347 /* PokemonAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonAnnotation.swift; sourceTree = "<group>"; };
 		46B4C99627E378FB00256BFD /* PokemonGO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonGO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B4C99927E378FB00256BFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46B4C99B27E378FB00256BFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,12 +71,14 @@
 				46B4C99927E378FB00256BFD /* AppDelegate.swift */,
 				46B4C99B27E378FB00256BFD /* SceneDelegate.swift */,
 				46B4C99D27E378FB00256BFD /* MapaViewController.swift */,
+				46AB469827E4BC6700856347 /* PokemonAnnotation.swift */,
+				46B4C9B327E3B9BA00256BFD /* CoreDataPokemon.swift */,
+				469BE82727E4ECB500642F1D /* PokeDexViewController.swift */,
 				46B4C99F27E378FB00256BFD /* Main.storyboard */,
 				46B4C9A527E378FD00256BFD /* Assets.xcassets */,
 				46B4C9A727E378FD00256BFD /* LaunchScreen.storyboard */,
 				46B4C9AA27E378FD00256BFD /* Info.plist */,
 				46B4C9A227E378FB00256BFD /* PokemonGO.xcdatamodeld */,
-				46B4C9B327E3B9BA00256BFD /* CoreDataPokemon.swift */,
 			);
 			path = PokemonGO;
 			sourceTree = "<group>";
@@ -160,6 +166,8 @@
 				46B4C9A427E378FB00256BFD /* PokemonGO.xcdatamodeld in Sources */,
 				46B4C99A27E378FB00256BFD /* AppDelegate.swift in Sources */,
 				46B4C99C27E378FB00256BFD /* SceneDelegate.swift in Sources */,
+				469BE82827E4ECB500642F1D /* PokeDexViewController.swift in Sources */,
+				46AB469927E4BC6700856347 /* PokemonAnnotation.swift in Sources */,
 				46B4C9B427E3B9BA00256BFD /* CoreDataPokemon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

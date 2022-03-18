@@ -19,6 +19,7 @@ class CoreDataPokemon {
     }
     //adicionar todos pokemons
     func addAllPokemons (){
+        self.createPokemon(name: "Pikachu", imageName: "pikachu-2", catched: true)
         self.createPokemon(name: "Mew", imageName: "mew", catched: false)
         self.createPokemon(name: "Bullbasaur", imageName: "bullbasaur", catched: false)
         self.createPokemon(name: "Squirtle", imageName: "squirtle", catched: false)
@@ -41,5 +42,38 @@ class CoreDataPokemon {
         pokemon.catched = catched
     
     }
-    
+    func listPokemons () -> [Pokemon] {
+       let context =  self.getContext()
+        
+        do {
+            let pokemons =  try context.fetch(Pokemon.fetchRequest()) as! [Pokemon]
+            if pokemons.count == 0 {
+                
+                self.addAllPokemons()
+                return self.listPokemons()
+        
+            }
+            return pokemons
+        } catch  {
+            
+        }
+        return []
+    }
+    func listCatchedPokemons(isCatched : Bool ) -> [Pokemon] {
+       
+        let context = self.getContext()
+      
+        let request = Pokemon.fetchRequest() as NSFetchRequest<Pokemon>
+        
+//        request.predicate = NSPredicate(format: "catched = %@", isCatched as CVarArg )
+        request.predicate = NSPredicate(format: "%catched = %@", NSNumber(value: isCatched))
+        
+        do{
+            let pokemons = try context.fetch( request ) as [Pokemon]
+            return pokemons
+            
+        }catch{}
+        
+        return []
+    }
 }
