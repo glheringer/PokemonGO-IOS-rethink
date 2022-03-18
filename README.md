@@ -1,1 +1,1 @@
-# PokemonGO-IOS-rethink
+# First big project in IOS
