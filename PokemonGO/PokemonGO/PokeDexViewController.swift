@@ -24,6 +24,14 @@ class PokeDexViewController: UIViewController, UITableViewDelegate,UITableViewDa
     func numberOfSections(in tableView: UITableView) -> Int { // agora em duas secoes, uma para capturados e uma nao capturados
         return 2
     }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0{
+            return ( "Catched")
+        }
+        else{
+            return ( "Uncatched")
+        }
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 { //dividindo secoes
             return self.catchedPokemons.count

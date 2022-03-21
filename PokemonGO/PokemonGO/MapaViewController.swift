@@ -72,6 +72,7 @@ class MapaViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         
         return annotationView
     }
+
     // Configuracoes Inicias do projeto
     func configLocationManager(){
         self.mapa.delegate = self
@@ -90,6 +91,55 @@ class MapaViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         else{
             locationManager.stopUpdatingLocation()
         }
+    }
+    
+    //Funcao que executada um codigo assim que uma anotacao for selecionada, bem como quando usamos tabelas e o usuario seleciona uma linha
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        let annotation = view.annotation
+        let pokemon = (annotation as! PokemonAnnotation).pokemon
+        
+        mapView.deselectAnnotation(annotation, animated: true) // Metodo para deselecionar a anotacao, nao continuar clicado nela
+        
+ 
+        if annotation is MKUserLocation{ //verificar caso o usuario esteja selecionando a anotacao representa o usuario
+            return
+        }
+        //verificar se o usuario está na area visivel da anotacao, para poder capturar, mas antes disso centralizar na anotacao
+        
+        if let coordAnnotation =  annotation?.coordinate{
+            let region = MKCoordinateRegion.init( center: coordAnnotation, latitudinalMeters: 320, longitudinalMeters: 320)
+            mapa.setRegion(region, animated: true)
+           
+        }
+        if let coordinate = self.locationManager.location?.coordinate { // se é a localizacao do usuario
+            let pointCoord =  MKMapPoint.init(coordinate)
+   
+            
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer) in
+              
+                if self.mapa.visibleMapRect.contains(pointCoord) {
+                    self.coreDataPokemon.catchPokemon(pokemon: pokemon)
+                    self.mapa.removeAnnotation(annotation!)
+                    
+                    let alertController = UIAlertController(title: "Parabéns, capturado com sucesso!!", message: "O Pokemon \(pokemon.name!) foi capturado e adiconado à Pokedex. ", preferredStyle: .alert)
+                    let actionConfirm = UIAlertAction(title: "Ok", style: .default, handler: nil)
+              
+                    alertController.addAction(actionConfirm)
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                }
+                else{
+                    let alertController = UIAlertController(title: "Pokemon não capturado :( ", message: "O Pokemon \(pokemon.name!) não está no alcance do usuario. ", preferredStyle: .alert)
+                    let actionConfirm = UIAlertAction(title: "Ok", style: .default, handler: nil)
+              
+                    alertController.addAction(actionConfirm)
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
+            
+        }
+    
     }
     
     // Configurar quando o usuário nega autorizacao

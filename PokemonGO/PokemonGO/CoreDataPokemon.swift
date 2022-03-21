@@ -19,6 +19,9 @@ class CoreDataPokemon {
     }
     //adicionar todos pokemons
     func addAllPokemons (){
+        
+        let context = getContext()
+        
         self.createPokemon(name: "Pikachu", imageName: "pikachu-2", catched: true)
         self.createPokemon(name: "Mew", imageName: "mew", catched: false)
         self.createPokemon(name: "Bullbasaur", imageName: "bullbasaur", catched: false)
@@ -28,10 +31,16 @@ class CoreDataPokemon {
         self.createPokemon(name: "Bellsprout", imageName: "bellsprout", catched: false)
         self.createPokemon(name: "Meowth", imageName: "meowth", catched: false)
         self.createPokemon(name: "Psyduck", imageName: "psyduck", catched: false)
-        self.createPokemon(name: "Ratata", imageName: "ratata", catched: false)
+        self.createPokemon(name: "Rattata", imageName: "rattata", catched: false)
         self.createPokemon(name: "Snorlax", imageName: "snorlax", catched: false)
         self.createPokemon(name: "Zubat", imageName: "zubat", catched: false)
         self.createPokemon(name: "Jigglypuff", imageName: "jigglypuff", catched: false)
+        
+        do {
+            try context.save()
+        } catch  {
+            
+        }
     }
     // criar pokemons
     func createPokemon(name : String , imageName : String , catched : Bool ){
@@ -46,7 +55,7 @@ class CoreDataPokemon {
        let context =  self.getContext()
         
         do {
-            let pokemons =  try context.fetch(Pokemon.fetchRequest()) as! [Pokemon]
+            let pokemons =  try context.fetch(Pokemon.fetchRequest()) as [Pokemon]
             if pokemons.count == 0 {
                 
                 self.addAllPokemons()
@@ -65,9 +74,17 @@ class CoreDataPokemon {
       
         let request = Pokemon.fetchRequest() as NSFetchRequest<Pokemon>
         
-//        request.predicate = NSPredicate(format: "catched = %@", isCatched as CVarArg )
-        request.predicate = NSPredicate(format: "%catched = %@", NSNumber(value: isCatched))
+//        let predicate = NSPredicate(format: "catched ==  %@", isCatched as CVarArg )
         
+//        request.predicate  = NSPredicate(format: "%catched == %@", NSNumber(value: isCatched))
+        if isCatched == true{
+            request.predicate = NSPredicate(format: "catched = %d", true)
+        }
+        else{
+            request.predicate = NSPredicate(format: "catched = %d", false)
+        }
+        
+
         do{
             let pokemons = try context.fetch( request ) as [Pokemon]
             return pokemons
@@ -76,4 +93,17 @@ class CoreDataPokemon {
         
         return []
     }
+    func catchPokemon(pokemon : Pokemon){
+        
+        let context =  self.getContext()
+        
+        pokemon.catched = true
+        
+        do {
+            try context.save()
+        } catch  {
+            
+        }
+    }
+    
 }
